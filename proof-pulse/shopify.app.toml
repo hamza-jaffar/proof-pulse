@@ -2,7 +2,7 @@
 
 client_id = "cdf94330cff04b5495efcde063b3064a"
 name = "Proof Pulse"
-application_url = "https://example.com"
+application_url = "https://chrissy-unpraised-allyn.ngrok-free.dev/shopify-oauth/init"
 embedded = true
 
 [build]
@@ -25,7 +25,7 @@ api_version = "2026-07"
 scopes = "write_metaobject_definitions,write_metaobjects,write_products"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [ "https://chrissy-unpraised-allyn.ngrok-free.dev/shopify-oauth/redirect" ]
 
 [product.metafields.app.demo_info]
 type = "single_line_text_field"
