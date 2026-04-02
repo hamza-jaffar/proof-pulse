@@ -1,3 +1,4 @@
+import { uuid } from 'drizzle-orm/pg-core';
 import {
   pgTable,
   uniqueIndex,
@@ -11,7 +12,7 @@ import {
 export const shopifyStore = pgTable(
   'shopify_stores',
   {
-    id: serial('id').primaryKey(),
+    id: uuid('id').primaryKey().defaultRandom(),
     shopifyDomain: varchar('shopify_domain', { length: 255 }).notNull(),
     accessToken: text('access_token').notNull(),
     isActive: boolean('is_active').default(true).notNull(),

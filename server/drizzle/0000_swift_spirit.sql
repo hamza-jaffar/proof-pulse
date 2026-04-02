@@ -1,5 +1,5 @@
 CREATE TABLE "shopify_stores" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"shopify_domain" varchar(255) NOT NULL,
 	"access_token" text NOT NULL,
 	"is_active" boolean DEFAULT true NOT NULL,

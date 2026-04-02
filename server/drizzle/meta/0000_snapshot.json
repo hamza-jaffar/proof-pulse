@@ -1,5 +1,5 @@
 {
-  "id": "e57645f5-cb63-42eb-929b-023ce9443635",
+  "id": "7527cfd0-0e3d-48d3-8586-b35a99a8ff69",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -10,9 +10,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "shopify_domain": {
           "name": "shopify_domain",

@@ -4,6 +4,7 @@ import { OauthService } from './oauth.service';
 import { ConfigModule } from '@nestjs/config';
 import configuration from 'src/configuration';
 import { HttpModule } from '@nestjs/axios';
+import { DatabaseModule } from '../../database/database.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { HttpModule } from '@nestjs/axios';
         timeout: 120000,
       }),
     }),
+    DatabaseModule,
   ],
   controllers: [OauthController],
   providers: [OauthService],
