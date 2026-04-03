@@ -11,12 +11,25 @@ export class ShopifyStoreRepository {
     return this.databaseService.client as any;
   }
 
-  async createStore(shopifyDomain: string, accessToken: string) {
+  async createStore(
+    shopifyDomain: string,
+    accessToken: string,
+    tokenExpiresAt?: Date,
+  ) {
     const [store] = await this.db
       .insert(shopifyStore)
       .values({
         shopifyDomain,
         accessToken,
+        tokenExpiresAt,
+      })
+      .onConflictDoUpdate({
+        target: shopifyStore.shopifyDomain,
+        set: {
+          accessToken,
+          tokenExpiresAt,
+          updatedAt: new Date(),
+        },
       })
       .returning();
 
@@ -29,5 +42,11 @@ export class ShopifyStoreRepository {
       .from(shopifyStore)
       .where(eq(shopifyStore.shopifyDomain, domain))
       .limit(1);
+  }
+
+  async deleteFromDomain(domain: string) {
+    return this.db
+      .delete(shopifyStore)
+      .where(eq(shopifyStore.shopifyDomain, domain));
   }
 }

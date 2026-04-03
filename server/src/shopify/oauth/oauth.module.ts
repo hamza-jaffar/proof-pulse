@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import configuration from 'src/configuration';
 import { HttpModule } from '@nestjs/axios';
 import { DatabaseModule } from '../../database/database.module';
+import { WebhooksModule } from '../webhooks/webhooks.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { DatabaseModule } from '../../database/database.module';
       }),
     }),
     DatabaseModule,
+    WebhooksModule,
   ],
   controllers: [OauthController],
   providers: [OauthService],

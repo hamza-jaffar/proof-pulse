@@ -15,6 +15,7 @@ export const shopifyStore = pgTable(
     id: uuid('id').primaryKey().defaultRandom(),
     shopifyDomain: varchar('shopify_domain', { length: 255 }).notNull(),
     accessToken: text('access_token').notNull(),
+    tokenExpiresAt: timestamp('token_expires_at', { withTimezone: true }),
     isActive: boolean('is_active').default(true).notNull(),
     installedAt: timestamp('installed_at', { withTimezone: true })
       .defaultNow()
