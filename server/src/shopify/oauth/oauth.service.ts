@@ -3,6 +3,7 @@ import { Injectable, Query } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { lastValueFrom } from 'rxjs';
 import { ShopifyStoreRepository } from '../../database/shopify-store.repository';
+import { WebhooksService } from '../webhooks/webhooks.service';
 
 @Injectable()
 export class OauthService {
@@ -10,6 +11,7 @@ export class OauthService {
     private readonly configService: ConfigService,
     private readonly httpService: HttpService,
     private readonly shopifyStoreRepository: ShopifyStoreRepository,
+    private readonly webhookService: WebhooksService,
   ) {}
 
   async init(@Query() query: any) {
@@ -22,7 +24,7 @@ export class OauthService {
         .get('shopify.appProxy.scopes')
         .join(',')}&redirect_uri=${this.configService.get(
         'apiUrl',
-      )}/shopify-oauth/redirect&state={nonce}&grant_options[]={access_mode}`,
+      )}/shopify-oauth/redirect&state={nonce}&grant_options[]=per-user&access_mode=per_user`,
     };
     return myres;
   }
@@ -36,7 +38,18 @@ export class OauthService {
       }),
     );
 
+    // Calculate token expiration time from expires_in (in seconds)
+    const tokenExpiresAt = response.data.expires_in
+      ? new Date(Date.now() + response.data.expires_in * 1000)
+      : undefined;
+
     await this.shopifyStoreRepository.createStore(
+      query.shop,
+      response.data.access_token,
+      tokenExpiresAt,
+    );
+
+    await this.webhookService.registerUninstall(
       query.shop,
       response.data.access_token,
     );
