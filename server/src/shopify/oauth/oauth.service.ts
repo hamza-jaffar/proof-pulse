@@ -36,7 +36,6 @@ export class OauthService {
       }),
     );
 
-    // Store the token in the database
     await this.shopifyStoreRepository.createStore(
       query.shop,
       response.data.access_token,

@@ -18,6 +18,13 @@ export class ShopifyStoreRepository {
         shopifyDomain,
         accessToken,
       })
+      .onConflictDoUpdate({
+        target: shopifyStore.shopifyDomain,
+        set: {
+          accessToken,
+          updatedAt: new Date(),
+        },
+      })
       .returning();
 
     return store;
